@@ -30,9 +30,8 @@ export async function runWork(headless: boolean = true) {
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
         await sendPhoto(page, `WinTrading: Авторизован`);
 
-        const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder';
-        console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
-        await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
+        console.log('Кликаю по ссылке "Монеты" для перехода в Watchlist Builder...');
+        await page.click('a[href="#/app/watchlist-builder"]');
         
         console.log('Ожидание 5 секунд...');
         await new Promise(resolve => setTimeout(resolve, 5000));
