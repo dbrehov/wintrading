@@ -36,6 +36,23 @@ export async function runWork(headless: boolean = true) {
         console.log('Ожидание 5 секунд...');
         await new Promise(resolve => setTimeout(resolve, 5000));
 
+        console.log('Извлекаю данные из списка Watchlist...');
+        const watchlistData = await page.evaluate(() => {
+            const list = document.querySelector('ul[aria-label="app.WatchlistBuilder"]');
+            if (!list) return 'Список не найден';
+            
+            const rows = Array.from(list.querySelectorAll('li[role="option"]'));
+            return rows.map(row => {
+                const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
+                const columns = Array.from(row.querySelectorAll('.data-column'))
+                                    .map(col => col.textContent?.trim())
+                                    .join(' | ');
+                return `${symbol}: ${columns}`;
+            }).join('\\n');
+        });
+
+        await sendText(`📊 Список Watchlist:\\n${watchlistData}`);
+
         const cookiesPath = path.join(process.cwd(), 'wintrading.json');
         console.log('Сохраняю обновленные куки в wintrading.json...');
         const cookies = await page.context().cookies();
