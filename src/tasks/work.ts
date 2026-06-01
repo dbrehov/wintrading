@@ -34,6 +34,9 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
+        console.log('Ожидание 5 секунд...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
         console.log('Сохраняю куки в wintrading.json...');
         const cookies = await page.context().cookies();
         const cookiesPath = path.join(process.cwd(), 'wintrading.json');
