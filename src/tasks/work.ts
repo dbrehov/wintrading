@@ -30,6 +30,10 @@ export async function runWork(headless: boolean = true) {
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
         await sendPhoto(page, `WinTrading: Авторизован`);
 
+        console.log('Нажимаю Enter и Esc перед переходом...');
+        await page.keyboard.press('Enter');
+        await page.keyboard.press('Escape');
+
         console.log('Кликаю по ссылке "Монеты" для перехода в Watchlist Builder...');
         await page.click('a[href="#/app/watchlist-builder"]');
         
