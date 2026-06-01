@@ -1,5 +1,7 @@
 import { launchBrowser } from '../services/browser';
-import { sendText, sendPhoto } from '../services/telegram';
+import { sendText, sendPhoto, sendDocument } from '../services/telegram';
+import fs from 'fs';
+import path from 'path';
 
 export async function runWork(headless: boolean = true) {
     const { browser, page } = await launchBrowser(headless);
@@ -27,6 +29,19 @@ export async function runWork(headless: boolean = true) {
 
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
         await sendPhoto(page, `WinTrading: Авторизован`);
+
+        const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder';
+        console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
+        await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
+        
+        console.log('Сохраняю куки в wintrading.json...');
+        const cookies = await page.context().cookies();
+        const cookiesPath = path.join(process.cwd(), 'wintrading.json');
+        fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
+
+        console.log('Отправляю файл с куками в Telegram...');
+        await sendDocument(cookiesPath, 'Свежие куки WinTrading');
+        await sendText('📁 Файл wintrading.json отправлен в Telegram');
 
     } catch (err) {
         console.error('Ошибка в runStatus:', err);
