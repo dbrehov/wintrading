@@ -29,27 +29,23 @@ export async function runWork(headless: boolean = true) {
 
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
 
-        console.log('Перезагружаю страницу для чистого перехода...');
-        await page.close();
-        const newPage = await browser.contexts()[0].newPage();
-        
         const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder';
-        console.log(`Перехожу напрямую на страницу Watchlist Builder: ${watchlistUrl}...`);
-        await newPage.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
+        console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
+        await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
         console.log('Ожидание 5 секунд...');
         await new Promise(resolve => setTimeout(resolve, 5000));
 
         const cookiesPath = path.join(process.cwd(), 'wintrading.json');
         console.log('Сохраняю обновленные куки в wintrading.json...');
-        const cookies = await newPage.context().cookies();
+        const cookies = await page.context().cookies();
         fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
 
         console.log('Отправляю файл с куками в Telegram...');
         await sendDocument(cookiesPath, 'Свежие куки WinTrading');
         await sendText('📁 Файл wintrading.json отправлен в Telegram');
 
-        await sendPhoto(newPage, 'WinTrading: Watchlist Builder загружен и куки сохранены');
+        await sendPhoto(page, 'WinTrading: Watchlist Builder загружен и куки сохранены');
 
     } catch (err) {
         console.error('Ошибка в runStatus:', err);
