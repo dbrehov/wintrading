@@ -28,7 +28,6 @@ export async function runWork(headless: boolean = true) {
         console.log('Авторизация выполнена. Заголовок страницы:', title);
 
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
-        await sendPhoto(page, `WinTrading: Авторизован`);
 
         console.log('Перезагружаю страницу для чистого перехода...');
         await page.close();
@@ -49,6 +48,8 @@ export async function runWork(headless: boolean = true) {
         console.log('Отправляю файл с куками в Telegram...');
         await sendDocument(cookiesPath, 'Свежие куки WinTrading');
         await sendText('📁 Файл wintrading.json отправлен в Telegram');
+
+        await sendPhoto(newPage, 'WinTrading: Watchlist Builder загружен и куки сохранены');
 
     } catch (err) {
         console.error('Ошибка в runStatus:', err);
