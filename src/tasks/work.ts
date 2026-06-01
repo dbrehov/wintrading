@@ -6,40 +6,29 @@ import path from 'path';
 export async function runWork(headless: boolean = true) {
     const { browser, page } = await launchBrowser(headless);
     try {
-        const cookiesPath = path.join(process.cwd(), 'wintrading.json');
-        if (fs.existsSync(cookiesPath)) {
-            console.log('Загружаю куки из wintrading.json...');
-            const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'));
-            await page.context().addCookies(cookies);
-            console.log('Куки загружены.');
-        }
-
         const targetUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/auth';
         console.log(`Перехожу на ${targetUrl}...`);
         await page.goto(targetUrl, { timeout: 60000 });
         
-        // Проверяем, нужно ли вводить логин (если мы видим поле username)
-        const loginField = await page.$('input[formcontrolname="username"]');
-        if (loginField) {
-            console.log('Авторизация требуется. Ввожу логин и пароль...');
-            await page.fill('input[formcontrolname="username"]', 'brehov@gmail.com');
-            await page.fill('input[formcontrolname="password"]', 'winlv-tradehive-ui');
-            
-            console.log('Нажимаю Enter...');
-            await page.keyboard.press('Enter');
+        console.log('Ожидаю появления полей ввода...');
+        await page.waitForSelector('input[formcontrolname="username"]', { timeout: 60000 });
 
-            // Ожидаем загрузки после входа
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => console.log('Ошибка или таймаут навигации, продолжаем...'));
-            await new Promise(resolve => setTimeout(resolve, 5000));
-        } else {
-            console.log('Мы уже авторизованы (куки сработали).');
-        }
+        console.log('Ввожу логин и пароль...');
+        await page.fill('input[formcontrolname="username"]', 'brehov@gmail.com');
+        await page.fill('input[formcontrolname="password"]', 'winlv-tradehive-ui');
+        
+        console.log('Нажимаю Enter...');
+        await page.keyboard.press('Enter');
+
+        // Ожидаем загрузки после входа
+        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => console.log('Ошибка или таймаут навигации, продолжаем...'));
+        await new Promise(resolve => setTimeout(resolve, 5000));
 
         const title = await page.title();
-        console.log('Текущая страница:', title);
+        console.log('Авторизация выполнена. Заголовок страницы:', title);
 
-        await sendText(`✅ WinTrading доступен\nURL: ${targetUrl}\nTitle: ${title}`);
-        await sendPhoto(page, `WinTrading: Статус проверки`);
+        await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
+        await sendPhoto(page, `WinTrading: Авторизован`);
 
         console.log('Перезагружаю страницу для чистого перехода...');
         await page.close();
@@ -52,13 +41,14 @@ export async function runWork(headless: boolean = true) {
         console.log('Ожидание 5 секунд...');
         await new Promise(resolve => setTimeout(resolve, 5000));
 
+        const cookiesPath = path.join(process.cwd(), 'wintrading.json');
         console.log('Сохраняю обновленные куки в wintrading.json...');
         const cookies = await newPage.context().cookies();
         fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
 
         console.log('Отправляю файл с куками в Telegram...');
         await sendDocument(cookiesPath, 'Свежие куки WinTrading');
-        await sendText('📁 Обновленный файл wintrading.json отправлен в Telegram');
+        await sendText('📁 Файл wintrading.json отправлен в Telegram');
 
     } catch (err) {
         console.error('Ошибка в runStatus:', err);
