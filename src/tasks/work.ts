@@ -34,26 +34,29 @@ export async function runWork(headless: boolean = true) {
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
         console.log('Ожидаю загрузки списка монет...');
-        await page.waitForSelector('li[role="option"]', { timeout: 20000 }).catch(() => console.log('Предупреждение: элементы списка не найдены по селектору li[role="option"]'));
+        const containerSelector = 'body > app-root > hive-app > div > div > div > hive-watchlist-builder > as-split > as-split-area:nth-child(2) > nav > as-split';
+        await page.waitForSelector(containerSelector, { timeout: 20000 }).catch(() => console.log('Предупреждение: Контейнер списка не найден'));
         
         console.log('Извлекаю данные из списка Watchlist...');
-        const watchlistData = await page.evaluate(() => {
-            // Пробуем найти все элементы списка через role="option"
-            const rows = Array.from(document.querySelectorAll('li[role="option"]'));
+        const watchlistData = await page.evaluate((selector) => {
+            const container = document.querySelector(selector);
+            if (!container) return 'Контейнер списка не найден';
             
-            if (rows.length === 0) {
-                return 'Данные в списке не найдены';
+            const rows = Array.from(container.querySelectorAll('li[role="option"]'));
+            if (rows.length > 0) {
+                return rows.map(row => {
+                    const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
+                    const columns = Array.from(row.querySelectorAll('.data-column'))
+                                        .map(col => col.textContent?.trim())
+                                        .filter(text => text)
+                                        .join(' | ');
+                    return `${symbol}: ${columns}`;
+                }).join('\\n');
             }
-
-            return rows.map(row => {
-                const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
-                const columns = Array.from(row.querySelectorAll('.data-column'))
-                                    .map(col => col.textContent?.trim())
-                                    .filter(text => text)
-                                    .join(' | ');
-                return `${symbol}: ${columns}`;
-            }).join('\\n');
-        });
+            
+            // Если структурированные строки не найдены, возвращаем просто текст контейнера
+            return container.innerText.trim() || 'Данные внутри контейнера пусты';
+        }, containerSelector);
 
         await sendText(`📊 Список Watchlist:\\n${watchlistData}`);
 
