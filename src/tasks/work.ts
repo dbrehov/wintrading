@@ -4,16 +4,17 @@ import { sendText, sendPhoto } from '../services/telegram';
 export async function runStatus() {
     const { browser, page } = await launchBrowser(false);
     try {
-        console.log('Перехожу на checkip.amazonaws.com...');
-        await page.goto('https://checkip.amazonaws.com/', { timeout: 60000 });
+        const targetUrl = 'https://wintrading.live/#/app/watchlist-builder';
+        console.log(`Перехожу на ${targetUrl}...`);
+        await page.goto(targetUrl, { timeout: 60000 });
         await page.waitForSelector('body', { timeout: 60000 });
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 5000));
 
-        const ip = await page.evaluate(() => document.body.innerText.trim());
-        console.log('Публичный IP:', ip);
+        const title = await page.title();
+        console.log('Сайт доступен. Заголовок:', title);
 
-        await sendText(`Ваш публичный IP: ${ip}`);
-        await sendPhoto(page, `Ваш публичный IP: ${ip}`);
+        await sendText(`✅ Сайт WinTrading доступен\nURL: ${targetUrl}\nTitle: ${title}`);
+        await sendPhoto(page, `Статус WinTrading: Доступен`);
 
     } catch (err) {
         console.error('Ошибка в runStatus:', err);
