@@ -57,12 +57,3 @@ export async function runWork(headless: boolean = true) {
         console.log('Браузер закрыт.');
     }
 }
-
-
-    } catch (err) {
-        console.error('Ошибка в runStatus:', err);
-    } finally {
-        await browser.close();
-        console.log('Браузер закрыт.');
-    }
-}
