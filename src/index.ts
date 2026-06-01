@@ -1,6 +1,6 @@
 import { runColab } from './tasks/colab';
 import { runAuth } from './tasks/auth';
-import { runStatus } from './tasks/work';
+import { runWork } from './tasks/work';
 
 (async () => {
   const arg = process.argv[2];
@@ -15,7 +15,7 @@ import { runStatus } from './tasks/work';
     await runAuth();
   } else if (arg === 'work' || arg === 'status') {
     console.log('Запуск режима: Проверка статуса...');
-    await runStatus();
+    await runWork();
   } else {
     console.log('Доступные команды: colab, colab less, cookie/auth, work/status');
   }

@@ -1,8 +1,8 @@
 import { launchBrowser } from '../services/browser';
 import { sendText, sendPhoto } from '../services/telegram';
 
-export async function runStatus() {
-    const { browser, page } = await launchBrowser(false);
+export async function runWork(headless: boolean = true) {
+    const { browser, page } = await launchBrowser(headless);
     try {
         const targetUrl = 'https://wintrading.live/#/app/watchlist-builder';
         console.log(`Перехожу на ${targetUrl}...`);
