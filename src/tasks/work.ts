@@ -30,25 +30,34 @@ export async function runWork(headless: boolean = true) {
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
         await sendPhoto(page, `WinTrading: Авторизован`);
 
-        console.log('Ожидаю появления всплывающего окна с кнопкой "OK"...');
-        await page.waitForSelector('button.confirm-btn:has-text("OK")', { state: 'visible', timeout: 15000 });
-        console.log('Кликаю по кнопке "OK" (подтверждение)...');
-        await page.click('button.confirm-btn:has-text("OK")');
+        console.log('Перезагружаю страницу для чистого перехода...');
+        await page.close();
+        const newPage = await browser.contexts()[0].newPage();
         
-        console.log('Кликаю по ссылке "Монеты" для перехода в Watchlist Builder...');
-        await page.click('a[href="#/app/watchlist-builder"]');
+        const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder';
+        console.log(`Перехожу напрямую на страницу Watchlist Builder: ${watchlistUrl}...`);
+        await newPage.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
         console.log('Ожидание 5 секунд...');
         await new Promise(resolve => setTimeout(resolve, 5000));
 
         console.log('Сохраняю куки в wintrading.json...');
-        const cookies = await page.context().cookies();
+        const cookies = await newPage.context().cookies();
         const cookiesPath = path.join(process.cwd(), 'wintrading.json');
         fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
 
         console.log('Отправляю файл с куками в Telegram...');
         await sendDocument(cookiesPath, 'Свежие куки WinTrading');
         await sendText('📁 Файл wintrading.json отправлен в Telegram');
+
+    } catch (err) {
+        console.error('Ошибка в runStatus:', err);
+    } finally {
+        await browser.close();
+        console.log('Браузер закрыт.');
+    }
+}
+
 
     } catch (err) {
         console.error('Ошибка в runStatus:', err);
