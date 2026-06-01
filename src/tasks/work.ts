@@ -30,6 +30,8 @@ export async function runWork(headless: boolean = true) {
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
         await sendPhoto(page, `WinTrading: Авторизован`);
 
+        console.log('Ожидаю появления всплывающего окна с кнопкой "OK"...');
+        await page.waitForSelector('button.confirm-btn:has-text("OK")', { state: 'visible', timeout: 15000 });
         console.log('Кликаю по кнопке "OK" (подтверждение)...');
         await page.click('button.confirm-btn:has-text("OK")');
         
