@@ -33,19 +33,23 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
-        console.log('Ожидание 5 секунд...');
-        await new Promise(resolve => setTimeout(resolve, 5000));
-
+        console.log('Ожидаю загрузки списка монет...');
+        await page.waitForSelector('li[role="option"]', { timeout: 20000 }).catch(() => console.log('Предупреждение: элементы списка не найдены по селектору li[role="option"]'));
+        
         console.log('Извлекаю данные из списка Watchlist...');
         const watchlistData = await page.evaluate(() => {
-            const list = document.querySelector('ul[aria-label="app.WatchlistBuilder"]');
-            if (!list) return 'Список не найден';
+            // Пробуем найти все элементы списка через role="option"
+            const rows = Array.from(document.querySelectorAll('li[role="option"]'));
             
-            const rows = Array.from(list.querySelectorAll('li[role="option"]'));
+            if (rows.length === 0) {
+                return 'Данные в списке не найдены';
+            }
+
             return rows.map(row => {
                 const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
                 const columns = Array.from(row.querySelectorAll('.data-column'))
                                     .map(col => col.textContent?.trim())
+                                    .filter(text => text)
                                     .join(' | ');
                 return `${symbol}: ${columns}`;
             }).join('\\n');
