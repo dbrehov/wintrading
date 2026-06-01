@@ -55,7 +55,7 @@ export async function runWork(headless: boolean = true) {
             }
             
             // Если структурированные строки не найдены, возвращаем просто текст контейнера
-            return container.innerText.trim() || 'Данные внутри контейнера пусты';
+            return container.textContent?.trim() || 'Данные внутри контейнера пусты';
         }, containerSelector);
 
         await sendText(`📊 Список Watchlist:\\n${watchlistData}`);
