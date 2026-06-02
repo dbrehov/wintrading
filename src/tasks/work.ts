@@ -24,11 +24,6 @@ export async function runWork(headless: boolean = true) {
         await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => console.log('Ошибка или таймаут навигации, продолжаем...'));
         await new Promise(resolve => setTimeout(resolve, 5000));
 
-        const title = await page.title();
-        console.log('Авторизация выполнена. Заголовок страницы:', title);
-
-        await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
-
         const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder/BINANCE_FUTURES/LABUSDT';
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
