@@ -27,6 +27,21 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
+        console.log('Извлекаю весь текст со страницы...');
+        const pageText = await page.evaluate(() => document.body.innerText);
+        
+        const marker = 'Настройки';
+        const markerIndex = pageText.indexOf(marker);
+        
+        if (markerIndex !== -1) {
+            const contentAfterMarker = pageText.substring(markerIndex + marker.length).trim();
+            console.log('Маркер найден, отправляю текст после него...');
+            await sendText(`📊 Данные Watchlist (после "Настройки"):\\n${contentAfterMarker}`);
+        } else {
+            console.log('Маркер "Настройки" не найден, отправляю весь текст...');
+            await sendText(`📊 Текст страницы (маркер не найден):\\n${pageText}`);
+        }
+
         console.log('Делаю финальный скриншот...');
         await sendPhoto(page, 'WinTrading: Скриншот Watchlist Builder');
 
