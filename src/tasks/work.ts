@@ -24,8 +24,8 @@ export async function runWork(headless: boolean = true) {
         await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => console.log('Ошибка или таймаут навигации, продолжаем...'));
         await new Promise(resolve => setTimeout(resolve, 5000));
 
-        const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/trend-screener';
-        console.log(`Перехожу на страницу Trend Screener: ${watchlistUrl}...`);
+        const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder/BINANCE_FUTURES/BTCUSDT';
+        console.log(`Перехожу на страницу Watchlist Builder (BTCUSDT): ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
         console.log('Ожидаю загрузки списка монет...');
