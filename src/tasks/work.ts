@@ -147,7 +147,7 @@ export async function runWork(headless: boolean = true) {
                 execSync('git push origin main');
                 console.log('Данные успешно запушены в репозиторий');
             } catch (gitErr) {
-                console.error('Ошибка при пуше данных в Git (возможно, нет изменений):', gitErr.message);
+                console.error('Ошибка при пуше данных в Git (возможно, нет изменений):', (gitErr as any).message);
             }
 
             await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
