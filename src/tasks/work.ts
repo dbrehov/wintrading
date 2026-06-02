@@ -106,7 +106,9 @@ export async function runWork(headless: boolean = true) {
                 'Трендовые уровни': ['TL1M', 'TL5M', 'TL15M', 'TL1H', 'TL4H', 'TL1D'],
                 'Сделки': ['T5m', 'T15M', 'T30M', 'T1h', 'T2h', 'T6h', 'T12h', 'T24h'],
                 'Повышенные объемы': ['VIdx1m', 'VIdx5m', 'VIdx10m', 'VIdx15M', 'VIdx20M', 'VIdx30M', 'VIdx1h', 'VIdx2h', 'VIdx6h', 'VIdx12h', 'VIdx24h'],
-                'Открытый интерес': ['OI1m', 'OI5m', 'OI15m', 'OI30m', 'OI1h', 'OI2h', 'OI4h', 'OI6h', 'OI12h', 'OI24h']
+                'Открытый интерес': ['OI1m', 'OI5m', 'OI15m', 'OI30m', 'OI1h', 'OI2h', 'OI4h', 'OI6h', 'OI12h', 'OI24h'],
+                'Фандинг': ['FN'],
+                'Изменение объема за 24ч': ['VCh24h']
             };
 
             const finalHeaders = headers.length > 0 ? headers : ['Символ', ...Array(10).fill('Col')];
