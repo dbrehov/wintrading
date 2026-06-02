@@ -162,7 +162,7 @@ export async function runWork(headless: boolean = true) {
                 publicLink = response.data.trim();
                 console.log(`Файл успешно загружен: ${publicLink}`);
             } catch (uploadErr) {
-                console.error('Ошибка при загрузке на Transfer.sh:', uploadErr.message);
+                console.error('Ошибка при загрузке на Transfer.sh:', (uploadErr as any).message);
             }
 
             await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
