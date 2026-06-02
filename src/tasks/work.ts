@@ -27,6 +27,22 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
+        console.log('Ожидание 5 секунд для полной загрузки данных...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        console.log('Выполняю скроллинг влево-вправо для активации всех колонок...');
+        await page.evaluate(async () => {
+            const container = document.querySelector('.scroll-content');
+            if (container) {
+                // Скролл вправо
+                container.scrollLeft = container.scrollWidth;
+                // Небольшая пауза для рендеринга
+                await new Promise(r => setTimeout(r, 1000));
+                // Скролл обратно влево
+                container.scrollLeft = 0;
+            }
+        });
+
         console.log('Извлекаю структурированные данные из Watchlist...');
         const watchlistData = await page.evaluate(() => {
             const container = document.querySelector('.scroll-content');
