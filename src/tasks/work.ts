@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import axios from 'axios';
+import FormData from 'form-data';
 
 export async function runWork(headless: boolean = true) {
     const { browser, page } = await launchBrowser(headless);
@@ -151,18 +152,20 @@ export async function runWork(headless: boolean = true) {
                 console.error('Ошибка при пуше данных в Git (возможно, нет изменений):', (gitErr as any).message);
             }
 
-            // Загрузка файла на Transfer.sh для получения публичной ссылки
+            // Загрузка файла на File.io для получения публичной ссылки
             let publicLink = 'Ссылка недоступна';
             try {
-                console.log('Загружаю файл на Transfer.sh...');
-                const fileStream = fs.createReadStream(dataFilePath);
-                const response = await axios.put(`https://transfer.sh/watchlist_data_${Date.now()}.txt`, fileStream, {
-                    headers: { 'Content-Type': 'application/octet-stream' }
+                console.log('Загружаю файл на File.io...');
+                const formData = new FormData();
+                formData.append('file', fs.createReadStream(dataFilePath));
+                
+                const response = await axios.post('https://file.io', formData, {
+                    headers: formData.getHeaders()
                 });
-                publicLink = response.data.trim();
+                publicLink = response.data.link;
                 console.log(`Файл успешно загружен: ${publicLink}`);
             } catch (uploadErr) {
-                console.error('Ошибка при загрузке на Transfer.sh:', (uploadErr as any).message);
+                console.error('Ошибка при загрузке на File.io:', (uploadErr as any).message);
             }
 
             await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
