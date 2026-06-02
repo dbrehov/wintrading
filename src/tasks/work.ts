@@ -28,32 +28,8 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder (BTCUSDT): ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
-        console.log('Ожидаю загрузки списка монет...');
-        const containerSelector = 'body > app-root > hive-app > div > div > div > hive-watchlist-builder > as-split > as-split-area:nth-child(2) > nav > as-split';
-        await page.waitForSelector(containerSelector, { timeout: 20000 }).catch(() => console.log('Предупреждение: Контейнер списка не найден'));
-        
-        console.log('Извлекаю данные из списка Watchlist...');
-        const watchlistData = await page.evaluate((selector) => {
-            const container = document.querySelector(selector);
-            if (!container) return 'Контейнер списка не найден';
-            
-            const rows = Array.from(container.querySelectorAll('li[role="option"]'));
-            if (rows.length > 0) {
-                return rows.map(row => {
-                    const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
-                    const columns = Array.from(row.querySelectorAll('.data-column'))
-                                        .map(col => col.textContent?.trim())
-                                        .filter(text => text)
-                                        .join(' | ');
-                    return `${symbol}: ${columns}`;
-                }).join('\\n');
-            }
-            
-            // Если структурированные строки не найдены, возвращаем просто текст контейнера
-            return container.textContent?.trim() || 'Данные внутри контейнера пусты';
-        }, containerSelector);
-
-        await sendText(`📊 Список Watchlist:\\n${watchlistData}`);
+        console.log('Ожидаю загрузки страницы...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
 
         const cookiesPath = path.join(process.cwd(), 'wintrading.json');
         console.log('Сохраняю обновленные куки в wintrading.json...');
@@ -64,8 +40,18 @@ export async function runWork(headless: boolean = true) {
         await sendDocument(cookiesPath, 'Свежие куки WinTrading');
         await sendText('📁 Файл wintrading.json отправлен в Telegram');
 
-        console.log('Ожидание 25 секунд перед финальным скриншотом...');
+        console.log('Ожидание 25 секунд перед финальным скриншотом и парсингом...');
         await new Promise(resolve => setTimeout(resolve, 25000));
+        
+        console.log('Извлекаю данные из списка Watchlist (.scroll-content)...');
+        const watchlistData = await page.evaluate(() => {
+            const container = document.querySelector('.scroll-content');
+            if (!container) return 'Контейнер .scroll-content не найден';
+            return container.innerText.trim() || 'Данные внутри контейнера пусты';
+        });
+
+        await sendText(`📊 Список Watchlist (полный текст):\\n${watchlistData}`);
+
         await sendPhoto(page, 'WinTrading: Trend Screener загружен и куки сохранены');
 
     } catch (err) {
