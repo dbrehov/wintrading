@@ -50,8 +50,8 @@ export async function runWork(headless: boolean = true) {
             console.log('Авторизация через куки прошла успешно!');
         }
         
-        console.log('Ожидание 4 минут для полной загрузки данных...');
-        await new Promise(resolve => setTimeout(resolve, 240000));
+        console.log('Ожидание 5 секунд для полной загрузки данных...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
 
         console.log('Выполняю скроллинг влево-вправо для активации всех колонок...');
         await page.evaluate(async () => {
