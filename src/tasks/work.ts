@@ -1,5 +1,5 @@
 import { launchBrowser } from '../services/browser';
-import { sendPhoto } from '../services/telegram';
+import { sendPhoto, sendText } from '../services/telegram';
 
 export async function runWork(headless: boolean = true) {
     const { browser, page } = await launchBrowser(headless);
