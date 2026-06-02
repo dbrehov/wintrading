@@ -1,31 +1,54 @@
 import { launchBrowser } from '../services/browser';
 import { sendPhoto, sendText } from '../services/telegram';
+import fs from 'fs';
+import path from 'path';
 
 export async function runWork(headless: boolean = true) {
     const { browser, page } = await launchBrowser(headless);
     try {
-        const targetUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/auth';
-        console.log(`Перехожу на страницу авторизации: ${targetUrl}...`);
-        await page.goto(targetUrl, { timeout: 60000 });
-        
-        console.log('Ожидаю появления полей ввода...');
-        await page.waitForSelector('input[formcontrolname="username"]', { timeout: 60000 });
+        // 1. Попытка загрузки куки для ускорения входа
+        const cookiesPath = path.join(process.cwd(), 'wintrading.json');
+        if (fs.existsSync(cookiesPath)) {
+            console.log('Загружаю куки из wintrading.json...');
+            const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf-8'));
+            await page.context().addCookies(cookies);
+            console.log('Куки успешно загружены.');
+        }
 
-        console.log('Ввожу логин и пароль...');
-        await page.fill('input[formcontrolname="username"]', 'brehov@gmail.com');
-        await page.fill('input[formcontrolname="password"]', 'winlv-tradehive-ui');
-        
-        console.log('Нажимаю Enter...');
-        await page.keyboard.press('Enter');
-
-        // Ожидаем загрузки после входа
-        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // Переходим на страницу Watchlist
         const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder/';
-        console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
+        
+        // Пробуем сразу перейти на страницу Watchlist, чтобы проверить, работают ли куки
+        console.log(`Пробую перейти на ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
+
+        // Проверяем, не перекинуло ли нас на страницу авторизации
+        const currentUrl = page.url();
+        if (currentUrl.includes('/app/auth') || await page.locator('input[formcontrolname="username"]').isVisible()) {
+            console.log('Куки не сработали или истекли. Выполняю авторизацию...');
+            
+            const targetUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/auth';
+            await page.goto(targetUrl, { timeout: 60000 });
+            
+            console.log('Ожидаю появления полей ввода...');
+            await page.waitForSelector('input[formcontrolname="username"]', { timeout: 60000 });
+
+            console.log('Ввожу логин и пароль...');
+            await page.fill('input[formcontrolname="username"]', 'brehov@gmail.com');
+            await page.fill('input[formcontrolname="password"]', 'winlv-tradehive-ui');
+            
+            console.log('Нажимаю Enter...');
+            await page.keyboard.press('Enter');
+
+            // Ожидаем загрузки после входа
+            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // После логина возвращаемся на Watchlist
+            console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
+            await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
+        } else {
+            console.log('Авторизация через куки прошла успешно!');
+        }
         
         console.log('Ожидание 5 секунд для полной загрузки данных...');
         await new Promise(resolve => setTimeout(resolve, 5000));
