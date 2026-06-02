@@ -2,8 +2,8 @@ import { launchBrowser } from '../services/browser';
 import { sendText, sendPhoto } from '../services/telegram';
 import fs from 'fs';
 
-export async function runAuth() {
-    const { browser, page } = await launchBrowser(false);
+export async function runAuth(headless: boolean = false) {
+    const { browser, page } = await launchBrowser(headless);
     try {
         console.log('Перехожу на google.com...');
         await page.goto('https://google.com', { timeout: 60000 });
