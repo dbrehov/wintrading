@@ -5,10 +5,20 @@ import config from '../config';
 
 export async function sendText(message: string) {
   try {
-    await axios.get(`https://api.telegram.org/bot${config.OUR_BOT_TOKEN}/sendMessage`, {
-      params: { chat_id: config.chatId, text: message },
-    });
-    console.log('Сообщение отправлено в Telegram:', message);
+    const MAX_LENGTH = 4000;
+    const chunks = [];
+    
+    for (let i = 0; i < message.length; i += MAX_LENGTH) {
+      chunks.push(message.slice(i, i + MAX_LENGTH));
+    }
+
+    for (const chunk of chunks) {
+      await axios.post(`https://api.telegram.org/bot${config.OUR_BOT_TOKEN}/sendMessage`, {
+        chat_id: config.chatId,
+        text: chunk,
+      });
+    }
+    console.log('Сообщение отправлено в Telegram');
   } catch (err) {
     console.error('Ошибка при отправке сообщения в Telegram:', err);
   }
