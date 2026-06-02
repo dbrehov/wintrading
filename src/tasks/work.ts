@@ -64,7 +64,9 @@ export async function runWork(headless: boolean = true) {
         await sendDocument(cookiesPath, 'Свежие куки WinTrading');
         await sendText('📁 Файл wintrading.json отправлен в Telegram');
 
-        await sendPhoto(page, 'WinTrading: Watchlist Builder загружен и куки сохранены');
+        console.log('Ожидание 5 секунд перед финальным скриншотом...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        await sendPhoto(page, 'WinTrading: Trend Screener загружен и куки сохранены');
 
     } catch (err) {
         console.error('Ошибка в runStatus:', err);
