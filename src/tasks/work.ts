@@ -27,19 +27,15 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
-        console.log('Извлекаю весь текст со страницы...');
-        const pageText = await page.evaluate(() => document.body.innerText);
+        console.log('Извлекаю весь текст страницы (textContent)...');
+        const pageText = await page.evaluate(() => document.body.textContent);
         
-        const marker = 'Настройки';
-        const markerIndex = pageText.indexOf(marker);
-        
-        if (markerIndex !== -1) {
-            const contentAfterMarker = pageText.substring(markerIndex + marker.length).trim();
-            console.log('Маркер найден, отправляю текст после него...');
-            await sendText(`📊 Данные Watchlist (после "Настройки"):\\n${contentAfterMarker}`);
+        if (pageText && pageText.trim().length > 0) {
+            console.log(`Текст извлечен (${pageText.length} символов), отправляю в Telegram...`);
+            await sendText(`📊 Полный текст страницы Watchlist:\\n${pageText}`);
         } else {
-            console.log('Маркер "Настройки" не найден, отправляю весь текст...');
-            await sendText(`📊 Текст страницы (маркер не найден):\\n${pageText}`);
+            console.log('Текст страницы не найден или пуст');
+            await sendText('❌ Не удалось извлечь текст со страницы');
         }
 
         console.log('Делаю финальный скриншот...');
