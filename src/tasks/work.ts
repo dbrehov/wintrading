@@ -27,12 +27,15 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
-        console.log('Извлекаю весь текст страницы (innerText)...');
-        const pageText = await page.evaluate(() => document.body.innerText);
+        console.log('Извлекаю текст из специфического контейнера .scroll-content...');
+        const pageText = await page.evaluate(() => {
+            const container = document.querySelector('.scroll-content');
+            return container ? container.innerText : document.body.innerText;
+        });
         
         if (pageText && pageText.trim().length > 0) {
             console.log(`Текст извлечен (${pageText.length} символов), отправляю в Telegram...`);
-            await sendText(`📊 Полный текст страницы Watchlist:\\n${pageText}`);
+            await sendText(`📊 Список Watchlist (из .scroll-content):\\n${pageText}`);
         } else {
             console.log('Текст страницы не найден или пуст');
             await sendText('❌ Не удалось извлечь текст со страницы');
