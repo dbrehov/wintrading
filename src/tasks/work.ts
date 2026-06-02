@@ -27,15 +27,27 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
-        console.log('Извлекаю весь текст страницы (textContent)...');
-        const pageText = await page.evaluate(() => document.body.textContent);
+        console.log('Извлекаю текст страницы и применяю фильтрацию по маркерам...');
+        const pageText = await page.evaluate(() => document.body.innerText);
         
-        if (pageText && pageText.trim().length > 0) {
-            console.log(`Текст извлечен (${pageText.length} символов), отправляю в Telegram...`);
-            await sendText(`📊 Полный текст страницы Watchlist:\\n${pageText}`);
+        const lines = pageText
+            .split('\\n')
+            .map(l => l.trim())
+            .filter(Boolean);
+
+        const startIndex = lines.findIndex(line => line === 'Ордер №');
+        const endIndex = lines.findIndex(line => line === 'О Bitget');
+
+        if (startIndex !== -1) {
+            const sliceStart = startIndex + 1;
+            const sliceEnd = endIndex > sliceStart ? endIndex : lines.length;
+            const orderLines = lines.slice(sliceStart, sliceEnd).join('\\n');
+            
+            console.log(`Маркеры найдены, извлечено строк: ${lines.slice(sliceStart, sliceEnd).length}`);
+            await sendText(`📊 Данные по ордерам:\\n${orderLines}`);
         } else {
-            console.log('Текст страницы не найден или пуст');
-            await sendText('❌ Не удалось извлечь текст со страницы');
+            console.log('Маркер "Ордер №" не найден, отправляю весь текст страницы...');
+            await sendText(`📊 Маркер "Ордер №" не найден. Полный текст страницы:\\n${pageText}`);
         }
 
         console.log('Делаю финальный скриншот...');
