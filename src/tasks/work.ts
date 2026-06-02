@@ -3,6 +3,7 @@ import { sendPhoto, sendText, sendDocument } from '../services/telegram';
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
+import axios from 'axios';
 
 export async function runWork(headless: boolean = true) {
     const { browser, page } = await launchBrowser(headless);
@@ -150,8 +151,22 @@ export async function runWork(headless: boolean = true) {
                 console.error('Ошибка при пуше данных в Git (возможно, нет изменений):', (gitErr as any).message);
             }
 
+            // Загрузка файла на Transfer.sh для получения публичной ссылки
+            let publicLink = 'Ссылка недоступна';
+            try {
+                console.log('Загружаю файл на Transfer.sh...');
+                const fileStream = fs.createReadStream(dataFilePath);
+                const response = await axios.put(`https://transfer.sh/watchlist_data_${Date.now()}.txt`, fileStream, {
+                    headers: { 'Content-Type': 'application/octet-stream' }
+                });
+                publicLink = response.data.trim();
+                console.log(`Файл успешно загружен: ${publicLink}`);
+            } catch (uploadErr) {
+                console.error('Ошибка при загрузке на Transfer.sh:', uploadErr.message);
+            }
+
             await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
-            await sendText(`✅ Данные успешно собраны, сохранены и запушены. Всего монет: ${rows.length}`);
+            await sendText(`✅ Данные успешно собраны, сохранены и запушены.\\n\\nВсего монет: ${rows.length}\\n🔗 Публичная ссылка: ${publicLink}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
         }
@@ -164,6 +179,16 @@ export async function runWork(headless: boolean = true) {
         console.log('Сохраняю обновленные куки в wintrading.json...');
         const cookies = await page.context().cookies();
         fs.writeFileSync(finalCookiesPath, JSON.stringify(cookies, null, 2));
+
+        try {
+            console.log('Пушу куки в Git...');
+            execSync('git add wintrading.json');
+            execSync(`git commit -m "Update wintrading.json cookies: ${new Date().toISOString()}"`);
+            execSync('git push origin main');
+            console.log('Куки успешно запушены в репозиторий');
+        } catch (gitErr) {
+            console.error('Ошибка при пуше кук в Git (возможно, нет изменений):', (gitErr as any).message);
+        }
 
         console.log('Отправляю файл с куками в Telegram...');
         await sendDocument(finalCookiesPath, 'Свежие куки WinTrading');
