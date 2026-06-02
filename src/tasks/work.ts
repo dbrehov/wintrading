@@ -27,18 +27,31 @@ export async function runWork(headless: boolean = true) {
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
-        console.log('Извлекаю текст из специфического контейнера .scroll-content...');
-        const pageText = await page.evaluate(() => {
+        console.log('Извлекаю структурированные данные из Watchlist...');
+        const watchlistData = await page.evaluate(() => {
             const container = document.querySelector('.scroll-content');
-            return container ? (container as HTMLElement).innerText : document.body.innerText;
+            if (!container) return 'Контейнер списка (.scroll-content) не найден';
+            
+            const rows = Array.from(container.querySelectorAll('li[role="option"]'));
+            if (rows.length === 0) {
+                return 'Данные в списке не найдены';
+            }
+
+            return rows.map(row => {
+                const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
+                const columns = Array.from(row.querySelectorAll('.data-column'))
+                                    .map(col => col.textContent?.trim())
+                                    .filter(text => text)
+                                    .join(' | ');
+                return `${symbol}: ${columns}`;
+            }).join('\\n');
         });
         
-        if (pageText && pageText.trim().length > 0) {
-            console.log(`Текст извлечен (${pageText.length} символов), отправляю в Telegram...`);
-            await sendText(`📊 Список Watchlist (из .scroll-content):\\n${pageText}`);
+        if (watchlistData && watchlistData.length > 0) {
+            console.log(`Данные извлечены, отправляю в Telegram...`);
+            await sendText(`📊 Список Watchlist:\\n${watchlistData}`);
         } else {
-            console.log('Текст страницы не найден или пуст');
-            await sendText('❌ Не удалось извлечь текст со страницы');
+            await sendText('❌ Не удалось извлечь данные из списка монет');
         }
 
         console.log('Делаю финальный скриншот...');
