@@ -126,6 +126,16 @@ export async function runWork(headless: boolean = true) {
         console.log('Делаю финальный скриншот...');
         await sendPhoto(page, 'WinTrading: Скриншот Watchlist Builder');
 
+        // Сохраняем и отправляем обновленные куки в Telegram
+        const cookiesPath = path.join(process.cwd(), 'wintrading.json');
+        console.log('Сохраняю обновленные куки в wintrading.json...');
+        const cookies = await page.context().cookies();
+        fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
+
+        console.log('Отправляю файл с куками в Telegram...');
+        await sendDocument(cookiesPath, 'Свежие куки WinTrading');
+        await sendText('📁 Файл wintrading.json обновлен и отправлен');
+
     } catch (err) {
         console.error('Ошибка в runWork:', err);
     } finally {
