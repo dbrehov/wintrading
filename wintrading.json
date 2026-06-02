@@ -4,7 +4,7 @@
     "value": "GA1.1.372147326.1780385044",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1814980079.516722,
+    "expires": 1814988206.354948,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
@@ -34,17 +34,7 @@
     "value": "eyJpZCI6ImEwMjU3MTdkLWJjMjgtNWQ2YS04MzczLTlhNjEyMzU2ZGVjNSIsImNyZWF0ZWQiOjE3ODAzODUwNDM5NjUsImV4aXN0aW5nIjp0cnVlfQ==",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1811956080,
-    "httpOnly": false,
-    "secure": true,
-    "sameSite": "None"
-  },
-  {
-    "name": "_hjSession_5347612",
-    "value": "eyJpZCI6IjAxMzlhNWNhLTNhYWMtNDE4YS04ZjYwLTE0YjFmMzczOGZjZSIsImMiOjE3ODA0MTk3NzQxMzIsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MX0=",
-    "domain": ".twc1.net",
-    "path": "/",
-    "expires": 1780422130,
+    "expires": 1811964214,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -60,21 +50,31 @@
     "sameSite": "Lax"
   },
   {
+    "name": "_hjSession_5347612",
+    "value": "eyJpZCI6Ijk2NjlmZTcxLWQ2NjUtNDFjOS04NWU4LTNkNjEwYzgyZDMyMCIsImMiOjE3ODA0MjczNzc2OTMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
+    "domain": ".twc1.net",
+    "path": "/",
+    "expires": 1780429177,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
     "name": "__cf_bm",
-    "value": "3Ai23rZMtq9bR3UozAS5N5AloyxivU8Rh9LNtf8bDYY-1780420084-1.0.1.1-8sWBwwHi74Kh9OtfBEzqiUXaTpXWe.UO6C6UvDL6uAM0eyMlMDRmd01dfd5_Nz2jekWwnm6D6N5Cd2A8rtWJc0ygkB3ufSORi6S6F6NnzRo",
+    "value": "x3thqzijXUzjR5ljU0QOByyAIfYLLHERxCBGXzSBs_0-1780427383-1.0.1.1-GdgbDbIrgsrHkMQh1oai2so4ZhmSO0nignd_GiYT_kATGkJqtRufPH1ipleIQZ_m.eyJhxPqAjesG4BFNSrPvsB8.1jvFftH4QQsq4C7z8Q",
     "domain": ".alerts.wintrading.live",
     "path": "/",
-    "expires": 1780421884.015204,
+    "expires": 1780429183.220341,
     "httpOnly": true,
     "secure": true,
     "sameSite": "None"
   },
   {
     "name": "_ga_0BNQQEFDDK",
-    "value": "GS2.1.s1780419774$o2$g1$t1780420331$j60$l0$h0",
+    "value": "GS2.1.s1780427377$o3$g1$t1780428206$j60$l0$h0",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1814980331.513184,
+    "expires": 1814988206.366024,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
