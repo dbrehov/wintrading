@@ -152,24 +152,8 @@ export async function runWork(headless: boolean = true) {
                 console.error('Ошибка при пуше данных в Git (возможно, нет изменений):', (gitErr as any).message);
             }
 
-            // Загрузка файла на File.io для получения публичной ссылки
-            let publicLink = 'Ссылка недоступна';
-            try {
-                console.log('Загружаю файл на File.io...');
-                const formData = new FormData();
-                formData.append('file', fs.createReadStream(dataFilePath));
-                
-                const response = await axios.post('https://file.io', formData, {
-                    headers: formData.getHeaders()
-                });
-                publicLink = response.data.link;
-                console.log(`Файл успешно загружен: ${publicLink}`);
-            } catch (uploadErr) {
-                console.error('Ошибка при загрузке на File.io:', (uploadErr as any).message);
-            }
-
             await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
-            await sendText(`✅ Данные успешно собраны, сохранены и запушены.\\n\\nВсего монет: ${rows.length}\\n🔗 Публичная ссылка: ${publicLink}`);
+            await sendText(`✅ Данные успешно собраны, сохранены и запушены. Всего монет: ${rows.length}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
         }
