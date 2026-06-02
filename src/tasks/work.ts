@@ -29,7 +29,7 @@ export async function runWork(headless: boolean = true) {
 
         await sendText(`✅ Авторизация в WinTrading прошла успешно\nURL: ${targetUrl}\nTitle: ${title}`);
 
-        const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder';
+        const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder/BINANCE_FUTURES/LABUSDT';
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
         
