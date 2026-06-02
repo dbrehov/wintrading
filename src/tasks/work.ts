@@ -57,15 +57,36 @@ export async function runWork(headless: boolean = true) {
                 const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
                 const columns = Array.from(row.querySelectorAll('.data-column'))
                                     .map(col => col.textContent?.trim())
-                                    .filter(text => text)
-                                    .join(' | ');
-                return `${symbol}: ${columns}`;
-            }).join('\\n');
+                                    .filter(text => text);
+                return { symbol, columns };
+            });
         });
         
-        if (watchlistData && watchlistData.length > 0) {
-            console.log(`Данные извлечены, отправляю в Telegram...`);
-            await sendText(`📊 Список Watchlist:\\n${watchlistData}`);
+        if (Array.isArray(watchlistData) && watchlistData.length > 0) {
+            console.log(`Данные извлечены, формирую таблицу...`);
+            
+            const headers = ['Символ', 'VOL5m', 'V24h', 'CH24h'];
+            const symbolWidth = Math.max(...watchlistData.map(r => r.symbol.length), headers[0].length) + 2;
+            
+            let table = '```\n';
+            // Header
+            table += headers.map((h, i) => {
+                if (i === 0) return h.padEnd(symbolWidth);
+                return h.padEnd(10);
+            }).join(' ') + '\n';
+            
+            table += '-'.repeat(symbolWidth + 30) + '\n';
+            
+            // Rows
+            watchlistData.forEach(row => {
+                const symbolPart = row.symbol.padEnd(symbolWidth);
+                const colsPart = row.columns.map(c => c.padEnd(10)).join(' ');
+                table += `${symbolPart} ${colsPart}\n`;
+            });
+            
+            table += '```';
+            
+            await sendText(`📊 Список Watchlist:\\n${table}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
         }
