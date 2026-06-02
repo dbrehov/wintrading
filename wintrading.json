@@ -4,7 +4,7 @@
     "value": "GA1.1.372147326.1780385044",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1814991468.533726,
+    "expires": 1814991654.213482,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
@@ -34,7 +34,7 @@
     "value": "eyJpZCI6ImEwMjU3MTdkLWJjMjgtNWQ2YS04MzczLTlhNjEyMzU2ZGVjNSIsImNyZWF0ZWQiOjE3ODAzODUwNDM5NjUsImV4aXN0aW5nIjp0cnVlfQ==",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1811967469,
+    "expires": 1811967655,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -47,16 +47,6 @@
     "expires": 1781284015,
     "httpOnly": false,
     "secure": true,
-    "sameSite": "Lax"
-  },
-  {
-    "name": "_ga_0BNQQEFDDK",
-    "value": "GS2.1.s1780431468$o4$g0$t1780431468$j60$l0$h0",
-    "domain": ".twc1.net",
-    "path": "/",
-    "expires": 1814991468.545235,
-    "httpOnly": false,
-    "secure": false,
     "sameSite": "Lax"
   },
   {
@@ -78,5 +68,15 @@
     "httpOnly": true,
     "secure": true,
     "sameSite": "None"
+  },
+  {
+    "name": "_ga_0BNQQEFDDK",
+    "value": "GS2.1.s1780431468$o4$g1$t1780431654$j60$l0$h0",
+    "domain": ".twc1.net",
+    "path": "/",
+    "expires": 1814991654.223381,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
   }
 ]
