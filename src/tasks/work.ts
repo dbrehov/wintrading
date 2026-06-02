@@ -95,24 +95,50 @@ export async function runWork(headless: boolean = true) {
         });
         
         if (rows.length > 0) {
-            console.log(`Данные извлечены, сохраняю в файл...`);
+            console.log(`Данные извлечены, формирую подробный файл с категориями...`);
             
+            const categoryMap = {
+                'Объем': ['V1m', 'V5m', 'V15M', 'V30M', 'V1h', 'V2h', 'V6h', 'V12h', 'V24h'],
+                'Изменение цены': ['CH5M', 'CH15M', 'CH30M', 'CH1h', 'CH2h', 'CH6h', 'CH12h', 'CH24h'],
+                'Волатильность': ['N1/30', 'N5/14', 'VOL5m', 'VOL15M', 'VOL30M', 'VOL1h', 'VOL2h', 'VOL6h', 'VOL12h', 'VOL24h'],
+                'Корреляция к BTC': ['COR3M', 'COR5M', 'COR15M', 'COR30M', 'COR1h', 'COR2h', 'COR6h', 'COR12h', 'COR24h'],
+                'Уровни': ['HL1M', 'HL5M', 'HL15M', 'HL1H', 'HL4H', 'HL1D'],
+                'Трендовые уровни': ['TL1M', 'TL5M', 'TL15M', 'TL1H', 'TL4H', 'TL1D'],
+                'Сделки': ['T5m', 'T15M', 'T30M', 'T1h', 'T2h', 'T6h', 'T12h', 'T24h'],
+                'Повышенные объемы': ['VIdx1m', 'VIdx5m', 'VIdx10m', 'VIdx15M', 'VIdx20M', 'VIdx30M', 'VIdx1h', 'VIdx2h', 'VIdx6h', 'VIdx12h', 'VIdx24h'],
+                'Открытый интерес': ['OI1m', 'OI5m', 'OI15m', 'OI30m', 'OI1h', 'OI2h', 'OI4h', 'OI6h', 'OI12h', 'OI24h']
+            };
+
             const finalHeaders = headers.length > 0 ? headers : ['Символ', ...Array(10).fill('Col')];
             
-            // Формируем содержимое файла в формате TSV (Tab-Separated Values)
-            // Это позволит легко открыть данные в Excel или Google Sheets
-            let fileContent = finalHeaders.join('\\t') + '\\n';
+            // Создаем строку категорий для верхней части файла
+            let categoriesRow = 'Монета'.padEnd(15, ' ') + ' ';
+            
+            const headerCategories = finalHeaders.map((h, i) => {
+                if (i === 0) return 'Монета';
+                for (const [cat, cols] of Object.entries(categoryMap)) {
+                    if (cols.includes(h)) return cat;
+                }
+                return 'Прочее';
+            });
+
+            // Формируем строку категорий (повторяем категорию для каждого столбца)
+            categoriesRow += headerCategories.slice(1).map(cat => cat.padEnd(10, ' ')).join(' ');
+
+            // Собираем содержимое файла
+            let fileContent = 'КАТЕГОРИИ:\\n' + categoriesRow + '\\n';
+            fileContent += 'ЗАГОЛОВКИ:\\n' + finalHeaders.join('\\t') + '\\n';
+            fileContent += 'ДАННЫЕ:\\n';
             
             rows.forEach(row => {
-                const rowData = [row.symbol, ...row.columns].join('\\t');
-                fileContent += rowData + '\\n';
+                fileContent += [row.symbol, ...row.columns].join('\\t') + '\\n';
             });
             
             const dataFilePath = path.join(process.cwd(), 'watchlist_data.txt');
             fs.writeFileSync(dataFilePath, fileContent, 'utf-8');
             
-            await sendDocument(dataFilePath, '📊 Актуальный список Watchlist (Данные)');
-            await sendText(`✅ Данные успешно собраны и отправлены в виде файла. Всего монет: ${rows.length}`);
+            await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
+            await sendText(`✅ Данные успешно собраны с детализацией. Всего монет: ${rows.length}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
         }
