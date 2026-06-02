@@ -18,7 +18,11 @@ export async function runWork(headless: boolean = true) {
         console.log('Нажимаю Enter...');
         await page.keyboard.press('Enter');
 
-        // Без задержек переходим на страницу Watchlist
+        // Ожидаем загрузки после входа
+        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => console.log('Ошибка или таймаут навигации, продолжаем...'));
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        // Переходим на страницу Watchlist
         const watchlistUrl = 'https://winlv-tradehive-ui-df56.twc1.net/#/app/watchlist-builder/';
         console.log(`Перехожу на страницу Watchlist Builder: ${watchlistUrl}...`);
         await page.goto(watchlistUrl, { waitUntil: 'networkidle', timeout: 60000 });
