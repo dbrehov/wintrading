@@ -30,7 +30,7 @@ export async function runWork(headless: boolean = true) {
         console.log('Извлекаю текст из специфического контейнера .scroll-content...');
         const pageText = await page.evaluate(() => {
             const container = document.querySelector('.scroll-content');
-            return container ? container.innerText : document.body.innerText;
+            return container ? (container as HTMLElement).innerText : document.body.innerText;
         });
         
         if (pageText && pageText.trim().length > 0) {
