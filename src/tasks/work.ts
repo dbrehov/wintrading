@@ -95,30 +95,24 @@ export async function runWork(headless: boolean = true) {
         });
         
         if (rows.length > 0) {
-            console.log(`Данные извлечены, формирую таблицу с динамическими заголовками...`);
+            console.log(`Данные извлечены, сохраняю в файл...`);
             
             const finalHeaders = headers.length > 0 ? headers : ['Символ', ...Array(10).fill('Col')];
-            const symbolWidth = Math.max(...rows.map(r => r.symbol.length), finalHeaders[0].length) + 2;
             
-            let table = '```\n';
-            // Header
-            table += finalHeaders.map((h, i) => {
-                if (i === 0) return h.padEnd(symbolWidth);
-                return h.padEnd(10);
-            }).join(' ') + '\n';
+            // Формируем содержимое файла в формате TSV (Tab-Separated Values)
+            // Это позволит легко открыть данные в Excel или Google Sheets
+            let fileContent = finalHeaders.join('\\t') + '\\n';
             
-            table += '-'.repeat(symbolWidth + finalHeaders.length * 10).trim() + '\n';
-            
-            // Rows
             rows.forEach(row => {
-                const symbolPart = row.symbol.padEnd(symbolWidth);
-                const colsPart = row.columns.map(c => c.padEnd(10)).join(' ');
-                table += `${symbolPart} ${colsPart}\n`;
+                const rowData = [row.symbol, ...row.columns].join('\\t');
+                fileContent += rowData + '\\n';
             });
             
-            table += '```';
+            const dataFilePath = path.join(process.cwd(), 'watchlist_data.txt');
+            fs.writeFileSync(dataFilePath, fileContent, 'utf-8');
             
-            await sendText(`📊 Список Watchlist (Динамический):\\n${table}`);
+            await sendDocument(dataFilePath, '📊 Актуальный список Watchlist (Данные)');
+            await sendText(`✅ Данные успешно собраны и отправлены в виде файла. Всего монет: ${rows.length}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
         }
