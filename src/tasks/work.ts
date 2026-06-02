@@ -2,6 +2,7 @@ import { launchBrowser } from '../services/browser';
 import { sendPhoto, sendText, sendDocument } from '../services/telegram';
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
 export async function runWork(headless: boolean = true) {
     const { browser, page } = await launchBrowser(headless);
@@ -139,8 +140,18 @@ export async function runWork(headless: boolean = true) {
             const dataFilePath = path.join(process.cwd(), 'watchlist_data.txt');
             fs.writeFileSync(dataFilePath, fileContent, 'utf-8');
             
+            try {
+                console.log('Пушу данные в Git...');
+                execSync('git add watchlist_data.txt');
+                execSync(`git commit -m "Update watchlist_data.txt: ${new Date().toISOString()}"`);
+                execSync('git push origin main');
+                console.log('Данные успешно запушены в репозиторий');
+            } catch (gitErr) {
+                console.error('Ошибка при пуше данных в Git (возможно, нет изменений):', gitErr.message);
+            }
+
             await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
-            await sendText(`✅ Данные успешно собраны с детализацией. Всего монет: ${rows.length}`);
+            await sendText(`✅ Данные успешно собраны, сохранены и запушены. Всего монет: ${rows.length}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
         }
