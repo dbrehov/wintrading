@@ -43,42 +43,51 @@ export async function runWork(headless: boolean = true) {
             }
         });
 
-        console.log('Извлекаю структурированные данные из Watchlist...');
-        const watchlistData = await page.evaluate(() => {
+        console.log('Извлекаю структурированные данные и заголовки из Watchlist...');
+        const { headers, rows } = await page.evaluate(() => {
             const container = document.querySelector('.scroll-content');
-            if (!container) return 'Контейнер списка (.scroll-content) не найден';
+            if (!container) return { headers: [], rows: [] };
             
-            const rows = Array.from(container.querySelectorAll('li[role="option"]'));
-            if (rows.length === 0) {
-                return 'Данные в списке не найдены';
+            // 1. Извлекаем динамические заголовки
+            const headerRow = container.querySelector('.navigation-headers');
+            const extractedHeaders = [];
+            if (headerRow) {
+                const symbolHeader = headerRow.querySelector('.name-header')?.textContent?.trim() || 'Монета';
+                extractedHeaders.push(symbolHeader);
+                const dataHeaders = Array.from(headerRow.querySelectorAll('.data-column'))
+                                        .map(col => col.textContent?.trim() || 'Column');
+                extractedHeaders.push(...dataHeaders);
             }
 
-            return rows.map(row => {
+            // 2. Извлекаем данные строк
+            const rowElements = Array.from(container.querySelectorAll('li[role="option"]'));
+            const extractedRows = rowElements.map(row => {
                 const symbol = row.querySelector('.symbol')?.textContent?.trim() || '???';
                 const columns = Array.from(row.querySelectorAll('.data-column'))
-                                    .map(col => col.textContent?.trim())
-                                    .filter(text => text);
+                                    .map(col => col.textContent?.trim() || '');
                 return { symbol, columns };
             });
+
+            return { headers: extractedHeaders, rows: extractedRows };
         });
         
-        if (Array.isArray(watchlistData) && watchlistData.length > 0) {
-            console.log(`Данные извлечены, формирую таблицу...`);
+        if (rows.length > 0) {
+            console.log(`Данные извлечены, формирую таблицу с динамическими заголовками...`);
             
-            const headers = ['Символ', 'VOL5m', 'V24h', 'CH24h'];
-            const symbolWidth = Math.max(...watchlistData.map(r => r.symbol.length), headers[0].length) + 2;
+            const finalHeaders = headers.length > 0 ? headers : ['Символ', ...Array(10).fill('Col')];
+            const symbolWidth = Math.max(...rows.map(r => r.symbol.length), finalHeaders[0].length) + 2;
             
             let table = '```\n';
             // Header
-            table += headers.map((h, i) => {
+            table += finalHeaders.map((h, i) => {
                 if (i === 0) return h.padEnd(symbolWidth);
                 return h.padEnd(10);
             }).join(' ') + '\n';
             
-            table += '-'.repeat(symbolWidth + 30) + '\n';
+            table += '-'.repeat(symbolWidth + finalHeaders.length * 10).trim() + '\n';
             
             // Rows
-            watchlistData.forEach(row => {
+            rows.forEach(row => {
                 const symbolPart = row.symbol.padEnd(symbolWidth);
                 const colsPart = row.columns.map(c => c.padEnd(10)).join(' ');
                 table += `${symbolPart} ${colsPart}\n`;
@@ -86,7 +95,7 @@ export async function runWork(headless: boolean = true) {
             
             table += '```';
             
-            await sendText(`📊 Список Watchlist:\\n${table}`);
+            await sendText(`📊 Список Watchlist (Динамический):\\n${table}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
         }
