@@ -4,7 +4,7 @@
     "value": "GA1.1.372147326.1780385044",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1814992466.145687,
+    "expires": 1814993228.224735,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
@@ -34,7 +34,7 @@
     "value": "eyJpZCI6ImEwMjU3MTdkLWJjMjgtNWQ2YS04MzczLTlhNjEyMzU2ZGVjNSIsImNyZWF0ZWQiOjE3ODAzODUwNDM5NjUsImV4aXN0aW5nIjp0cnVlfQ==",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1811968467,
+    "expires": 1811969230,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -60,16 +60,6 @@
     "sameSite": "None"
   },
   {
-    "name": "_ga_0BNQQEFDDK",
-    "value": "GS2.1.s1780431468$o4$g1$t1780432466$j60$l0$h0",
-    "domain": ".twc1.net",
-    "path": "/",
-    "expires": 1814992466.158321,
-    "httpOnly": false,
-    "secure": false,
-    "sameSite": "Lax"
-  },
-  {
     "name": "__cf_bm",
     "value": "Tw.v2vAmN033dXRfYXxIH02y9sauCZeUPb48T6fnvlI-1780432471-1.0.1.1-4kuc7wq0lIMyYACLIwZwFVj3n0ahNPfjMv4TxW.SfM6QftHx3XI.1xS8iw81usMJcDrxgzI3QCK2WeDmdBRsZ5y4gGFbXueW.PQ55ppu2cE",
     "domain": ".alerts.wintrading.live",
@@ -78,5 +68,15 @@
     "httpOnly": true,
     "secure": true,
     "sameSite": "None"
+  },
+  {
+    "name": "_ga_0BNQQEFDDK",
+    "value": "GS2.1.s1780431468$o4$g1$t1780433228$j60$l0$h0",
+    "domain": ".twc1.net",
+    "path": "/",
+    "expires": 1814993228.234146,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
   }
 ]
