@@ -4,7 +4,7 @@
     "value": "GA1.1.372147326.1780385044",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1814994060.184791,
+    "expires": 1815226905.922653,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
@@ -34,7 +34,7 @@
     "value": "eyJpZCI6ImEwMjU3MTdkLWJjMjgtNWQ2YS04MzczLTlhNjEyMzU2ZGVjNSIsImNyZWF0ZWQiOjE3ODAzODUwNDM5NjUsImV4aXN0aW5nIjp0cnVlfQ==",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1811970061,
+    "expires": 1812202906,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -51,31 +51,21 @@
   },
   {
     "name": "_ga_0BNQQEFDDK",
-    "value": "GS2.1.s1780431468$o4$g1$t1780434060$j60$l0$h0",
+    "value": "GS2.1.s1780666905$o5$g0$t1780666905$j60$l0$h0",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1814994060.194587,
+    "expires": 1815226905.934317,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
   },
   {
     "name": "_hjSession_5347612",
-    "value": "eyJpZCI6ImYwNjY2YWFlLTI0ODktNDk0ZC05MzYyLTRmZmI0ZWM5MmIwOCIsImMiOjE3ODA0MzQwNjEzNzEsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
+    "value": "eyJpZCI6IjAyYmU5NmNkLWFhNzEtNGQ0ZS1iMjdhLTA3Y2RiMzZkZjMzYiIsImMiOjE3ODA2NjY5MDY5NjEsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1780435861,
+    "expires": 1780668706,
     "httpOnly": false,
-    "secure": true,
-    "sameSite": "None"
-  },
-  {
-    "name": "__cf_bm",
-    "value": "jvSZKemzalI.9.3P3iiJkyMBUQZHvnL6UcI.v7H8Oyo-1780434065-1.0.1.1-DNTtV7WH7YXj0unksddZ3ZE5ZF9rRdyr6NL6ImbaIGJuNw7UMun8DBVQeM9.VmtwTX2mswCSUyAHBCpzhczNG4m3l4_pAYh8CA9wri2PD98",
-    "domain": ".alerts.wintrading.live",
-    "path": "/",
-    "expires": 1780435865.187991,
-    "httpOnly": true,
     "secure": true,
     "sameSite": "None"
   }
