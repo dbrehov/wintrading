@@ -1,5 +1,6 @@
 import { launchBrowser } from '../services/browser';
 import { sendPhoto, sendText, sendDocument } from '../services/telegram';
+import { saveWatchlistToBack4App } from '../services/back4app';
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
@@ -153,6 +154,15 @@ export async function runWork(headless: boolean = true) {
             }
 
             await sendDocument(dataFilePath, '📊 Подробный список Watchlist (с категориями)');
+            
+            // Отправка данных в Back4App (сохранение каждой таблицы как новой строки)
+            try {
+                const tableContent = fs.readFileSync(dataFilePath, 'utf-8');
+                await saveWatchlistToBack4App(tableContent, rows.length);
+            } catch (b4err) {
+                console.error('Ошибка при сохранении в Back4App:', b4err);
+            }
+
             await sendText(`✅ Данные успешно собраны, сохранены и запушены. Всего монет: ${rows.length}`);
         } else {
             await sendText('❌ Не удалось извлечь данные из списка монет');
