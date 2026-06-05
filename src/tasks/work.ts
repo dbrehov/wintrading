@@ -158,9 +158,11 @@ export async function runWork(headless: boolean = true) {
             // Отправка данных в Back4App (сохранение каждой таблицы как новой строки)
             try {
                 const tableContent = fs.readFileSync(dataFilePath, 'utf-8');
-                await saveWatchlistToBack4App(tableContent, rows.length);
+                const result = await saveWatchlistToBack4App(tableContent, rows.length);
+                await sendText(`☁️ Данные успешно сохранены в Back4App облако!\nID записи: ${result.objectId}\nКол-во монет: ${rows.length}`);
             } catch (b4err) {
                 console.error('Ошибка при сохранении в Back4App:', b4err);
+                await sendText(`❌ Ошибка при сохранении данных в Back4App облако`);
             }
 
             await sendText(`✅ Данные успешно собраны, сохранены и запушены. Всего монет: ${rows.length}`);
