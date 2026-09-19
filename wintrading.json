@@ -40,26 +40,6 @@
     "sameSite": "None"
   },
   {
-    "name": "g_state",
-    "value": "{\"i_l\":0,\"i_ll\":1789842440769,\"i_b\":\"SAfIsTv6lDkqazviZUShzLDFfntCoVOlyrjgrPympBM\",\"i_e\":{\"enable_itp_optimization\":24},\"i_et\":1789842440769}",
-    "domain": "winlv-tradehive-ui-df56.twc1.net",
-    "path": "/",
-    "expires": 1805394440,
-    "httpOnly": false,
-    "secure": false,
-    "sameSite": "Lax"
-  },
-  {
-    "name": "__cf_bm",
-    "value": "DEWb.ZI7RlwVCilHneWBkaH0hvQUUn2B_tsgfQISCLk-1789842467.195555-1.0.1.1-hF9i8YsP72LzUWM80iEI9M.vtiah3LFQYq9q6FFjdTVwzAsTSgbAweoN_Y5xq60pJa_SahYxIOPYObvwEL40b_QMTf7CjdN7KEhW5kREGN4XEi.aoF0WpOkLCBcOI_D7",
-    "domain": ".alerts.wintrading.live",
-    "path": "/",
-    "expires": 1789844267.145348,
-    "httpOnly": true,
-    "secure": true,
-    "sameSite": "None"
-  },
-  {
     "name": "_ga_0BNQQEFDDK",
     "value": "GS2.1.s1789842421$o6$g1$t1789843838$j25$l0$h0",
     "domain": ".twc1.net",
@@ -68,5 +48,35 @@
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
+  },
+  {
+    "name": "g_state",
+    "value": "{\"i_l\":0,\"i_ll\":1789843937967,\"i_b\":\"SAfIsTv6lDkqazviZUShzLDFfntCoVOlyrjgrPympBM\",\"i_e\":{\"enable_itp_optimization\":24},\"i_et\":1789843937967}",
+    "domain": "winlv-tradehive-ui-df56.twc1.net",
+    "path": "/",
+    "expires": 1805395937,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "wintrading-authTokens",
+    "value": "%7B%22access%22%3A%22eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzkwNzA3OTYyLCJpYXQiOjE3ODk4NDM5NjIsImp0aSI6ImZmMjI5NTQwZWIxYTRiNjZiNjJkZDk2ZWNhMDVhNTM3IiwidXNlcl9pZCI6MzA0NDksInVzZXJuYW1lIjoiXHUwNDE0XHUwNDM4XHUwNDNjXHUwNDMwXHUwNDExXHUwNDQwXHUwNDM1XHUwNDQ1XHUwNDNlXHUwNDMyIn0.gXpe74zaoD-a_uQQjGaSh27uDxBEtTHf0IaImgHvtF8%22%2C%22refresh%22%3A%22eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc5NzYxOTk2MiwiaWF0IjoxNzg5ODQzOTYyLCJqdGkiOiJjOTkwNTZkYzczM2Q0MmY3ODNlZDk0ZDI0YzAyMjZhNyIsInVzZXJfaWQiOjMwNDQ5LCJ1c2VybmFtZSI6Ilx1MDQxNFx1MDQzOFx1MDQzY1x1MDQzMFx1MDQxMVx1MDQ0MFx1MDQzNVx1MDQ0NVx1MDQzZVx1MDQzMiJ9.k4jqJSKhqHvJZvkoMcomfWRQ82L2Pppv8k341Gp935U%22%7D",
+    "domain": "winlv-tradehive-ui-df56.twc1.net",
+    "path": "/",
+    "expires": 1790707962,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "__cf_bm",
+    "value": "aaamTkBMzVabZhYldXioxB.TfWssG7.GzLFkovAB6GU-1789843964.5152826-1.0.1.1-cz4Z5.qOifWBqpgZ.X1xejcR81iQcSVdn0n0Bb5LsNlI_07pDd4P7AelWUzAretR7IKzsQ3u4yykNAzjh5qwZ8lnbjeY6RtSftU.92YIKnkG_gcgSmg0IqbQIYuuMq.w",
+    "domain": ".alerts.wintrading.live",
+    "path": "/",
+    "expires": 1789845764.388306,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
   }
 ]
