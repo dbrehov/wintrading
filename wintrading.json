@@ -4,7 +4,7 @@
     "value": "GA1.1.372147326.1780385044",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1824402433.977449,
+    "expires": 1824402835.306658,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
@@ -24,7 +24,7 @@
     "value": "eyJpZCI6ImEwMjU3MTdkLWJjMjgtNWQ2YS04MzczLTlhNjEyMzU2ZGVjNSIsImNyZWF0ZWQiOjE3ODAzODUwNDM5NjUsImV4aXN0aW5nIjp0cnVlfQ==",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1821378433,
+    "expires": 1821378835,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -34,7 +34,7 @@
     "value": "eyJpZCI6ImNiOGIyM2ZhLWY3MGMtNDY1Mi1hYTRjLWY3ZWNmOGMyMTA2NyIsImMiOjE3ODk4NDI0MjE5MjMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1789844298,
+    "expires": 1789844853,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -50,16 +50,6 @@
     "sameSite": "Lax"
   },
   {
-    "name": "wintrading-authTokens",
-    "value": "%7B%22access%22%3A%22eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzkwNzA2NDYyLCJpYXQiOjE3ODk4NDI0NjIsImp0aSI6ImVkMGUxYzQyZjA2NjQ1MWRiMGQ0OWMxMjIwNjk1ZDk3IiwidXNlcl9pZCI6MzA0NDksInVzZXJuYW1lIjoiXHUwNDE0XHUwNDM4XHUwNDNjXHUwNDMwXHUwNDExXHUwNDQwXHUwNDM1XHUwNDQ1XHUwNDNlXHUwNDMyIn0.GzVOQ_AVNEajGo6A_3TlAWRSdIxfehhXnf-uBXHeDDo%22%2C%22refresh%22%3A%22eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc5NzYxODQ2MiwiaWF0IjoxNzg5ODQyNDYyLCJqdGkiOiI0OGMyNDg4YzQ5NDg0MTdlOTVlYTllMWJlYTQ3NmE4MSIsInVzZXJfaWQiOjMwNDQ5LCJ1c2VybmFtZSI6Ilx1MDQxNFx1MDQzOFx1MDQzY1x1MDQzMFx1MDQxMVx1MDQ0MFx1MDQzNVx1MDQ0NVx1MDQzZVx1MDQzMiJ9.8_Md_J0kQdFdR8CdYl-rATCjGly7SVashbGkiiLmetI%22%7D",
-    "domain": "winlv-tradehive-ui-df56.twc1.net",
-    "path": "/",
-    "expires": 1790706462,
-    "httpOnly": false,
-    "secure": true,
-    "sameSite": "Lax"
-  },
-  {
     "name": "__cf_bm",
     "value": "DEWb.ZI7RlwVCilHneWBkaH0hvQUUn2B_tsgfQISCLk-1789842467.195555-1.0.1.1-hF9i8YsP72LzUWM80iEI9M.vtiah3LFQYq9q6FFjdTVwzAsTSgbAweoN_Y5xq60pJa_SahYxIOPYObvwEL40b_QMTf7CjdN7KEhW5kREGN4XEi.aoF0WpOkLCBcOI_D7",
     "domain": ".alerts.wintrading.live",
@@ -71,12 +61,22 @@
   },
   {
     "name": "_ga_0BNQQEFDDK",
-    "value": "GS2.1.s1789842421$o6$g1$t1789842474$j7$l0$h0",
+    "value": "GS2.1.s1789842421$o6$g1$t1789842847$j48$l0$h0",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1824402474.246379,
+    "expires": 1824402847.633144,
     "httpOnly": false,
     "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "wintrading-authTokens",
+    "value": "%7B%22access%22%3A%22eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzkwNzA3MDc5LCJpYXQiOjE3ODk4NDI0NjIsImp0aSI6IjdiN2ZkMDEwNTJhZTQ1M2U4ZmNkNzgyYjU0MWI1ZDNhIiwidXNlcl9pZCI6MzA0NDksInVzZXJuYW1lIjoiXHUwNDE0XHUwNDM4XHUwNDNjXHUwNDMwXHUwNDExXHUwNDQwXHUwNDM1XHUwNDQ1XHUwNDNlXHUwNDMyIn0.7MmEp2vV_icYO7YHEMIl0Kgy1ZN2KSEiygSURHExvYU%22%7D",
+    "domain": "winlv-tradehive-ui-df56.twc1.net",
+    "path": "/",
+    "expires": 1790707079,
+    "httpOnly": false,
+    "secure": true,
     "sameSite": "Lax"
   }
 ]
