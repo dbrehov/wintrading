@@ -4,7 +4,7 @@
     "value": "GA1.1.372147326.1780385044",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1824402835.306658,
+    "expires": 1824403803.408762,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
@@ -24,7 +24,7 @@
     "value": "eyJpZCI6ImEwMjU3MTdkLWJjMjgtNWQ2YS04MzczLTlhNjEyMzU2ZGVjNSIsImNyZWF0ZWQiOjE3ODAzODUwNDM5NjUsImV4aXN0aW5nIjp0cnVlfQ==",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1821378835,
+    "expires": 1821379804,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -34,7 +34,7 @@
     "value": "eyJpZCI6ImNiOGIyM2ZhLWY3MGMtNDY1Mi1hYTRjLWY3ZWNmOGMyMTA2NyIsImMiOjE3ODk4NDI0MjE5MjMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1789844853,
+    "expires": 1789845634,
     "httpOnly": false,
     "secure": true,
     "sameSite": "None"
@@ -61,22 +61,12 @@
   },
   {
     "name": "_ga_0BNQQEFDDK",
-    "value": "GS2.1.s1789842421$o6$g1$t1789842847$j48$l0$h0",
+    "value": "GS2.1.s1789842421$o6$g1$t1789843838$j25$l0$h0",
     "domain": ".twc1.net",
     "path": "/",
-    "expires": 1824402847.633144,
+    "expires": 1824403838.164232,
     "httpOnly": false,
     "secure": false,
-    "sameSite": "Lax"
-  },
-  {
-    "name": "wintrading-authTokens",
-    "value": "%7B%22access%22%3A%22eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzkwNzA3MDc5LCJpYXQiOjE3ODk4NDI0NjIsImp0aSI6IjdiN2ZkMDEwNTJhZTQ1M2U4ZmNkNzgyYjU0MWI1ZDNhIiwidXNlcl9pZCI6MzA0NDksInVzZXJuYW1lIjoiXHUwNDE0XHUwNDM4XHUwNDNjXHUwNDMwXHUwNDExXHUwNDQwXHUwNDM1XHUwNDQ1XHUwNDNlXHUwNDMyIn0.7MmEp2vV_icYO7YHEMIl0Kgy1ZN2KSEiygSURHExvYU%22%7D",
-    "domain": "winlv-tradehive-ui-df56.twc1.net",
-    "path": "/",
-    "expires": 1790707079,
-    "httpOnly": false,
-    "secure": true,
     "sameSite": "Lax"
   }
 ]
